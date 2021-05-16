@@ -45,7 +45,7 @@
         android:id="@+id/myFrameLayout"
         android:layout_width="409dp"
         android:layout_height="449dp"
-        android:background="#808080 "
+        android:background="#c0c0c0 "
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

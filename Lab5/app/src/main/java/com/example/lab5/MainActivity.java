@@ -42,11 +42,14 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+//    this method will load a fragment xml into the a specified frame layout
     public void loadFragment (Fragment fragment)
     {
         FragmentManager f = getFragmentManager();
         FragmentTransaction myTrans = f.beginTransaction();
+//        the replace method will replace the frame layout with the fragment xml
         myTrans.replace(R.id.myFrameLayout,fragment);
+//        commit will make the save changes to the frame and reload the state
         myTrans.commit();
 
     }
