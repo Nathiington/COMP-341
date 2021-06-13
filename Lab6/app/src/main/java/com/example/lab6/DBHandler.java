@@ -2,15 +2,19 @@ package com.example.lab6;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
+import java.util.ArrayList;
+import java.util.Date;
+
 public class DBHandler extends SQLiteOpenHelper {
 
     //variable for database name
-    private static final String DB_NAME = "myDatabase.db";
+    private static final String DB_NAME = "Database.db";
 
     //the database version
     private static final int DB_VERSION = 1;
@@ -64,4 +68,25 @@ public class DBHandler extends SQLiteOpenHelper {
         onCreate(db);
 
     }
+
+    public ArrayList<DateTime> getAllData()
+    {
+        ArrayList<DateTime> dateList = new ArrayList<>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(" SELECT * FROM " + TABLE_NAME,null);
+
+        while(cursor.moveToNext())
+        {
+            String date = cursor.getString(0);
+            String time = cursor.getString(1);
+
+            DateTime newTime = new DateTime(date,time);
+            dateList.add(newTime);
+        }
+        return dateList;
+    }
+
+
+
+
 }

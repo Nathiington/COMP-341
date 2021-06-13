@@ -4,30 +4,34 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button dateBtn,timeBtn,saveBtn;
+    Button dateBtn,timeBtn,saveBtn,viewBtn;
     EditText editTime,editDate;
     static int minutes,hours,day,months,years;
+
 
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         DBHandler hand = new DBHandler(MainActivity.this);
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
         editTime = findViewById(R.id.editTextTime);
@@ -102,5 +106,35 @@ public class MainActivity extends AppCompatActivity {
                     editTime.setText("");
             }
         });
+
+        viewBtn = findViewById(R.id.viewButton);
+        viewBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setContentView(R.layout.list_view);
+                ListView lv = findViewById(R.id.userList);
+
+                ArrayList<DateTime> dateList = hand.getAllData();
+
+                CustomAdapter myCAdapter = new CustomAdapter(dateList,MainActivity.this);
+                lv.setAdapter(myCAdapter);
+            }
+        });
+
+
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch(item.getItemId()){
+            case android.R.id.home:
+                startActivity(new Intent(MainActivity.this,MainActivity.class));
+                finish();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
