@@ -14,7 +14,6 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button view;
     FloatingActionButton register;
     ListView lv;
 
@@ -23,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         DBHandler hand = new DBHandler(MainActivity.this);
-        ListView lv = findViewById(R.id.studentsList);
+        lv = findViewById(R.id.studentsList);
 
         ArrayList<Student> studentList = hand.getAllData();
 
