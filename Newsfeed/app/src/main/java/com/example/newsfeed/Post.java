@@ -6,6 +6,8 @@ public class Post
     private String post;
     private String time;
 
+    public Post(){};
+
     public Post(String user, String post, String time) {
         this.user = user;
         this.post = post;

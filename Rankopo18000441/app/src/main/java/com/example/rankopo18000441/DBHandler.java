@@ -6,8 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import androidx.annotation.Nullable;
-
 import java.util.ArrayList;
 
 public class DBHandler extends SQLiteOpenHelper {
@@ -83,6 +81,29 @@ public class DBHandler extends SQLiteOpenHelper {
             studentList.add(newStudent);
         }
         return studentList;
+    }
+
+    public ArrayList<Student> search(String keyword) {
+        ArrayList<Student> students = null;
+        try {
+            SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+            Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM " + TABLE_NAME + " where " + FNAME_COL + " like ?", new String[] { "%" + keyword + "%" });
+            if (cursor.moveToFirst()) {
+                students = new ArrayList<Student>();
+                do {
+                    Student s = new Student();
+                    s.setFirstName(cursor.getString(0));
+                    s.setLastName(cursor.getString(1));
+                    s.setContactNumber(cursor.getString(2));
+                    s.setCourse(cursor.getString(3));
+                    s.setEmail(cursor.getString(4));
+                    students.add(s);
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            students = null;
+        }
+        return students;
     }
 
     // this would be used if we need to re-write the table so we drop the current version and add the new one

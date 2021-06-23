@@ -74,6 +74,27 @@ public class DBHandler extends SQLiteOpenHelper {
         return posts;
     }
 
+    public ArrayList<Post> search(String keyword) {
+        ArrayList<Post> postArrayList = null;
+        try {
+            SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+            Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM " + TABLE_NAME + " where " + USER_COL + " like ?", new String[] { "%" + keyword + "%" });
+            if (cursor.moveToFirst()) {
+                postArrayList = new ArrayList<Post>();
+                do {
+                    Post s = new Post();
+                    s.setUser(cursor.getString(0));
+                    s.setTime(cursor.getString(1));
+                    s.setPost(cursor.getString(2));
+                    postArrayList.add(s);
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            postArrayList = null;
+        }
+        return postArrayList;
+    }
+
     // this would be used if we need to re-write the table so we drop the current version and add the new one
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
